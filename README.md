@@ -5,8 +5,8 @@
 ### Clonar el repositorio
 
 ```sh
-git clone <URL_DEL_REPOSITORIO>
-cd <NOMBRE_DEL_REPOSITORIO>
+git clone [https://github.com/andres-benavides/fudo-challenge](https://github.com/andres-benavides/fudo-challenge)
+cd fudo-challenge
 ```
 
 ### Construcción del proyecto
