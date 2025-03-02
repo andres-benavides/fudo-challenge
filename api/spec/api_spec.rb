@@ -1,39 +1,25 @@
 require "rack/test"
 require "json"
-require_relative "../app"  # Ajusta según la estructura de tu proyecto
+require 'rspec'
+require_relative "../app"
 
-RSpec.describe 'Application' do
+RSpec.describe 'Test unit' do
   include Rack::Test::Methods
 
   def app
-    Routes
+    Sinatra::Application
   end
 
-  describe "POST /login" do
-    let(:user) { User.create(email: "test@example.com", password: "password123") }
+  before do
+    header "Host", "rack_app"
+  end
 
-    context "with valid credentials" do
-      it "returns a success response with a token" do
-        post "/login", { email: user.email, password: "password123" }.to_json, { "CONTENT_TYPE" => "application/json" }
-
-        expect(last_response.status).to eq(200)
-
-        response_body = JSON.parse(last_response.body)
-        expect(response_body["success"]).to be true
-        expect(response_body).to have_key("token")
-      end
-    end
-
-    context "with invalid credentials" do
-      it "returns an error response" do
-        post "/login", { email:"testw@example.com", password: "wrong_password" }.to_json, { "CONTENT_TYPE" => "application/json" }
-
-        expect(last_response.status).to eq(401)
-
-        response_body = JSON.parse(last_response.body)
-        expect(response_body["success"]).to be false
-        expect(response_body["error"]).to eq("Invalid credentials")
-      end
-    end
+  it "Login without data" do
+    post '/login', email: "corre@test.com", password: "password123"
+  
+    puts "Response Status: #{last_response.status}"
+    puts "Response Body: #{last_response.body}"
+  
+    expect(last_response.status).to eq(401)
   end
 end

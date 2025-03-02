@@ -4,7 +4,6 @@ require 'thread'
 require 'json'
 
 class WebSocketServer
-  puts "🔍 REDIS_URL: #{ENV['REDIS_URL']}"
   KEEPALIVE_TIME = 15
   @clients = []
   @redis = Redis.new(url: ENV.fetch('REDIS_URL', 'redis://localhost:6379/0'))
@@ -46,7 +45,6 @@ class WebSocketServer
     Thread.new do
       Redis.new(url: ENV.fetch('REDIS_URL', 'redis://localhost:6379/0')).subscribe('websocket_channel') do |on|
         on.message do |_channel, message|
-          puts "🔔 Mensaje recibido desde Redis: #{message}"
           broadcast(JSON.parse(message))
         end
       end

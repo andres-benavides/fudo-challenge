@@ -14,10 +14,9 @@ class CreateProductJob
       
       begin
         message = { event: 'product_created', name: product.name }
-    puts "📤 Publicando mensaje en Redis: #{message}"
 
-    redis = Redis.new(url: ENV.fetch('REDIS_URL', 'redis://localhost:6379/0'))
-    redis.publish('websocket_channel', message.to_json)
+        redis = Redis.new(url: ENV.fetch('REDIS_URL', 'redis://localhost:6379/0'))
+        redis.publish('websocket_channel', message.to_json)
         Sidekiq.logger.info "message send to Redis Pub/Sub: #{product.name}"
       rescue StandardError => e
         Sidekiq.logger.error "Error send to Redis Pub/Sub: #{e.message}"
