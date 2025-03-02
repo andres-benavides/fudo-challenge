@@ -1,0 +1,164 @@
+openapi: 3.0.0
+info:
+  title: API Challenge FUDO
+  description: API to management user and products with authentication JWT
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:9292
+    description: localhost
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+paths:
+  /signup:
+    post:
+      summary: Register user
+      description: Create a new user with email and password.
+      operationId: registerUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: "usuario@example.com"
+                password:
+                  type: string
+                  format: password
+                  minLength: 6
+                  example: "123456"
+      responses:
+        "201":
+          description: User created
+        "422":
+          description: Error messages
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "email is already taken"
+
+  /login:
+    post:
+      summary: Sing in
+      description: Authenticates a user and returns a JWT token.
+      operationId: loginUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: "usuario@example.com"
+                password:
+                  type: string
+                  format: password
+                  example: "123456"
+      responses:
+        "200":
+          description: Sing in success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+        "401":
+          description: Sing in error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Invalid credentials"
+
+  /products:
+    post:
+      summary: Create a new product
+      description: Create a new product in the API.
+      operationId: createProduct
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+              properties:
+                name:
+                  type: string
+                  example: "Coca cola de vainilla light"
+      responses:
+        "202":
+          description: Send product to creation queue
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Product creation enqueued"
+        "422":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "El nombre del producto es obligatorio"
+
+    get:
+      summary: Get list of products
+      description: Returns the list of registered products.
+      operationId: listProducts
+      security:
+        - BearerAuth: []
+      responses:
+        "200":
+          description: Return list of products
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: number
+                      example: 1
+                    name:
+                      type: string
+                      example: "Coca cola de vainilla light"

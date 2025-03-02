@@ -1,0 +1,38 @@
+version: '3'
+services:
+  redis:
+    image: redis:alpine
+    container_name: redis_service
+    restart: always
+    ports:
+      - "6379:6379"
+
+  rack_app:
+    build: .
+    container_name: rack_app
+    ports:
+      - "9292:9292"
+    volumes:
+      - ./api:/app
+      - ./api/db:/app/db
+    depends_on:
+      - redis
+    environment:
+      DATABASE_URL: sqlite:///app/db/development.sqlite3
+      REDIS_URL: redis://redis:6379/1
+      BUNDLE_PATH: "/usr/local/bundle"
+    working_dir: /app
+
+  sidekiq:
+    build: .
+    container_name: sidekiq
+    depends_on:
+      - redis
+      - rack_app
+    volumes:
+      - ./api:/app
+      - ./api/db:/app/db
+    environment:
+      DATABASE_URL: sqlite:///app/db/development.sqlite3
+      REDIS_URL: redis://redis:6379/1
+    entrypoint: ["/bin/sh", "./entrypoint.sh"]

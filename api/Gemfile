@@ -1,0 +1,22 @@
+source 'https://rubygems.org'
+
+gem "puma"
+gem 'rack', '~> 3.1.0'
+gem 'rackup', '~> 2.2', '>= 2.2.1'
+gem 'rake', '~> 13.2', '>= 13.2.1'
+gem 'sinatra' 
+gem 'sidekiq'
+gem 'redis'
+gem 'sequel'
+gem 'sqlite3'
+gem 'bcrypt'
+gem 'jwt'
+gem 'rerun'
+gem 'dry-schema'
+gem 'faye-websocket'
+
+
+group :test do
+  gem 'rspec'
+  gem 'rack-test'
+end
