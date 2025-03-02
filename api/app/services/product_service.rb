@@ -10,7 +10,7 @@ class ProductService
   end
 
   def self.list
-    products = Product.all.map(&:to_h)
+    products = Product.all.map(&:to_hash)
     { products: products }
   end
 end
