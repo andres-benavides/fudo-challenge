@@ -5,7 +5,7 @@
 ### Clonar el repositorio
 
 ```sh
-git clone [https://github.com/andres-benavides/fudo-challenge](https://github.com/andres-benavides/fudo-challenge)
+git clone https://github.com/andres-benavides/fudo-challenge
 cd fudo-challenge
 ```
 
