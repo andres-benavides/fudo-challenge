@@ -77,7 +77,7 @@ Ejemplo:
 Authorization: Bearer eyJhbGciOiJIUzI1...
 ```
 
-### Comprimir la respues
+### Comprimir la respuesta
 
 Los endpoints tienen la capacidad de comprimir la respuesta. Si deseas habilitar esta compresión en un endpoint, debes incluir el siguiente encabezado en la solicitud:
 
