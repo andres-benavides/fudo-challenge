@@ -77,6 +77,14 @@ Ejemplo:
 Authorization: Bearer eyJhbGciOiJIUzI1...
 ```
 
+### Comprimir la respues
+
+Los endpoints tienen la capacidad de comprimir la respuesta. Si deseas habilitar esta compresión en un endpoint, debes incluir el siguiente encabezado en la solicitud:
+
+```
+Accept-Encoding: application/gzip
+```
+
 ### WebSockets
 
 El proyecto incluye soporte para WebSockets. Puedes conectarte a `ws://localhost:9292/ws` para recibir mensajes cuando se cree un producto de forma asíncrona.
