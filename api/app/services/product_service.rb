@@ -6,7 +6,7 @@ class ProductService
     return { success: false, error: 'Name is required' } if name.nil? || name.strip.empty?
 
     CreateProductJob.perform_async(name)
-    { success: true, message: 'Product creation enqueued' }
+    { success: true, message: 'Product creation in process' }
   end
 
   def self.list

@@ -22,7 +22,6 @@ class UsersController
   end
 
   def self.login(request)
-    p "NO TEST IN HERE"
     data = JSON.parse(request.body.read) rescue {}
 
     result = AuthSchema::Login.call(data)

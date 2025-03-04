@@ -16,13 +16,25 @@
 require 'rack/test'
 require 'rspec'
 require_relative '../app'
+require 'database_cleaner/sequel'
+require_relative '../config/database'
 
 RSpec.configure do |config|
-  include Rack::Test::Methods
+  
+  config.include Rack::Test::Methods
 
-  def app
-    Routes
+  config.before(:suite) do
+    DatabaseCleaner[:sequel].strategy = :transaction
+    DatabaseCleaner[:sequel].clean_with(:truncation)
   end
+
+  config.around(:each) do |example|
+    DatabaseCleaner[:sequel].cleaning do
+      example.run
+    end
+  end
+  Dir["./spec/support/**/*.rb"].each { |file| require file }
+
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
   # assertions if you prefer.

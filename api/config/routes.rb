@@ -3,14 +3,13 @@ require_relative '../app/controllers/users_controller'
 require_relative '../app/controllers/products_controller'
 
 class Routes < Sinatra::Base
-  # set :bind, '0.0.0.0'
-  # set :port, 9292   
-  # set :allow_origin, '*'
-  # set :protection, :except => :http_origin
+  set :allowed_hosts, ['rack_app', 'localhost']
   before do
-    puts "Request Path: #{request.path}"
-    puts "Headers: #{request.env.inspect}"
     content_type :json
+  end
+
+  configure :test do
+    enable :logging
   end
 
   post '/signup' do
