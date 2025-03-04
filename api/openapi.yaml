@@ -44,15 +44,39 @@ paths:
         "201":
           description: User created
         "422":
-          description: Error messages
+          description: Validation error
           content:
             application/json:
               schema:
                 type: object
                 properties:
                   error:
-                    type: string
-                    example: "email is already taken"
+                    oneOf:
+                      - type: string
+                        example: "email is already taken"
+                      - type: object
+                        additionalProperties:
+                          type: array
+                          items:
+                            type: string
+                          example:
+                            email:
+                              - "is in invalid format"
+                            password:
+                              - "is too short (minimum is 8 characters)"
+              examples:
+                simple_error:
+                  summary: Simple error message
+                  value:
+                    error: "email is already taken"
+                validation_error:
+                  summary: Validation error with multiple fields
+                  value:
+                    error:
+                      email:
+                        - "is in invalid format"
+                      password:
+                        - "size cannot be less than 6"
 
   /login:
     post:
@@ -128,7 +152,7 @@ paths:
                 properties:
                   message:
                     type: string
-                    example: "Product creation enqueued"
+                    example: "Product creation in process"
         "422":
           description: Bad request
           content:
@@ -137,8 +161,25 @@ paths:
                 type: object
                 properties:
                   error:
-                    type: string
-                    example: "El nombre del producto es obligatorio"
+                    type: array
+                    items:
+                      type: string
+                    example:
+                      name:
+                        - "must be filled"
+              examples:
+                validation_error_name_empty:
+                  summary: Name empty
+                  value:
+                    error:
+                      name:
+                        - "must be filled"
+                validation_error_name_size:
+                  summary: Size of name
+                  value:
+                    error:
+                      name:
+                        - "size cannot be less than 3"
 
     get:
       summary: Get list of products
