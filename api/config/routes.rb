@@ -11,6 +11,10 @@ class Routes < Sinatra::Base
   configure :test do
     enable :logging
   end
+  
+  get '/' do
+    { healthcheck: 'ok' }.to_json
+  end
 
   post '/signup' do
     UsersController.register(request)

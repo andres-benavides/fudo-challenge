@@ -3,7 +3,7 @@ require_relative '../services/token_service'
 class AuthMiddleware
   def initialize(app)
     @app = app
-    @exclude_routes = %w[/login /signup /openapi.yaml /AUTHORS /ws]
+    @exclude_routes = %w[/login /signup /openapi.yaml /AUTHORS /ws /]
   end
 
   def call(env)

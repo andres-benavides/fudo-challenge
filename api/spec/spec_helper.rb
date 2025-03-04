@@ -13,6 +13,7 @@
 # it.
 #
 # See https://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
+ENV["RACK_ENV"] ||= "test"
 require 'rack/test'
 require 'rspec'
 require_relative '../app'
@@ -24,8 +25,12 @@ RSpec.configure do |config|
   config.include Rack::Test::Methods
 
   config.before(:suite) do
-    DatabaseCleaner[:sequel].strategy = :transaction
-    DatabaseCleaner[:sequel].clean_with(:truncation)
+    #Sequel.extension :migration
+    #DB.run(File.read("db/schema.sqlite3"))
+    if ENV['RACK_ENV'] == 'test'
+      DatabaseCleaner[:sequel].strategy = :transaction
+      DatabaseCleaner[:sequel].clean_with(:truncation)
+    end
   end
 
   config.around(:each) do |example|

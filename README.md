@@ -86,3 +86,11 @@ El proyecto incluye soporte para WebSockets. Puedes conectarte a `ws://localhost
 En la raíz del repositorio hay un archivo `fudo-challenge.postman_collection.json`, el cual puedes importar en Postman para probar la API fácilmente.
 
 También puedes usar Postman para crear una solicitud WebSocket apuntando a `ws://localhost:9292/ws` y recibir notificaciones cuando se cree un producto en segundo plano.
+
+### Pruebas unitarias
+
+El proyecto cuenta con pruebas unitarias realizadas en rspec, para los request que se crearon, para ejecutar las prueas se puede ejecutar el comando:
+
+```sh
+docker compose run --rm rack_app sh -c "rspec spec"
+```

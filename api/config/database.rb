@@ -4,7 +4,7 @@ ENV['RACK_ENV'] ||= 'development'
 
 DATABASE_URLS = {
   'development' => 'sqlite://db/development.sqlite3',
-  'test' => 'sqlite::memory:',
+  'test' => 'sqlite://db/schema.sqlite3',
   'production' => ENV['DATABASE_URL'] || 'sqlite://db/production.sqlite3'
 }
 
